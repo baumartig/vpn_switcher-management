@@ -1,0 +1,22 @@
+---
+
+    - name: install openvpn
+      apt: name=openvpn
+
+    - name: get the vpn configs
+      get_url: url=https://www.ipvanish.com/software/configs/configs.zip dest=/tmp/configs.zip
+
+    - name: install openvpn
+      apt: name=unzip
+
+    - name: unzip the configs
+      command: unzip /tmp/configs.zip -d /tmp/configs creates=/tmp/configs/*.ovpn
+
+    - name: copy the config preparation script
+      copy: src=../scripts/prepage-configs.sh dest=/tmp/prepage-configs.sh mode="u+rwx,g+rwx,o+rwx"
+
+    - name: convert the ipvanish configs
+      command: /tmp/prepage-configs.sh /tmp/configs /etc/openvpn
+
+    - name: copy the ipvanish crt
+      command: cp /tmp/configs/ca.ipvanish.com.crt /etc/openvpn/ca.ipvanish.com.crt creates=/etc/openvpn/ca.ipvanish.com.crt

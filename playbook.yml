@@ -1,0 +1,17 @@
+- hosts: pis
+  sudo: true
+  tasks:
+
+    - name: install git
+      apt: name=git
+
+    - name: install bind9
+      apt: name=bind9
+
+    - include: ansible/openvpn.yml
+
+    - include: ansible/nodejs.yml
+
+    - include: ansible/projects.yml
+
+    - include: ansible/nginx.yml

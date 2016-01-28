@@ -1,0 +1,19 @@
+---
+
+    - name: get vpn_switcher-server
+      git: repo=https://github.com/baumartig/vpn_switcher-server.git dest=/srv/vpn_switcher-server
+
+    - name: install vpn_switcher-server build and toolchain dependencies
+      command: npm install --no-optional chdir=/srv/vpn_switcher-server
+
+    - name: get vpn_switcher2
+      git: repo=https://github.com/baumartig/vpn_switcher2.git dest=/srv/vpn_switcher
+
+    - name: install vpn_switcher2 build and toolchain dependencies
+      command: npm install --no-optional chdir=/srv/vpn_switcher
+
+    - name: install vpn_switcher2 application dependencies
+      command: bower install chdir=/srv/vpn_switcher
+
+    - name: install vpn_switcher2 application dependencies
+      command: gulp dist chdir=/srv/vpn_switcher

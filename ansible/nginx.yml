@@ -1,0 +1,13 @@
+---
+
+    - name: install nginx
+      apt:  name=nginx
+
+    - name: copy nginx configuration
+      copy: src=../configs/nginx.conf dest=/etc/nginx/sites-available/default
+
+    - name: move nginx configuration to sites-enabled
+      file: src=/etc/nginx/sites-available/default path=/etc/nginx/sites-enabled/default state=link
+
+    - name: reload nginx configuration
+      service: name=nginx state=reloaded
