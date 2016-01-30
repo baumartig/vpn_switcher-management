@@ -4,16 +4,10 @@
       git: repo=https://github.com/baumartig/vpn_switcher-server.git dest=/srv/vpn_switcher-server
 
     - name: install vpn_switcher-server build and toolchain dependencies
-      command: npm install --no-optional chdir=/srv/vpn_switcher-server
+      command: npm install --no-optional chdir=/srv/vpn_switcher-server/src creates=/srv/vpn_switcher-server/src/node_modules
 
-    - name: get vpn_switcher2
-      git: repo=https://github.com/baumartig/vpn_switcher2.git dest=/srv/vpn_switcher
+    - name: get vpn_switcher2 zip
+      get_url: url=https://vpn_switcher:gscvs0rfyWjWcZaw2syw@baumartig.de/owncloud/remote.php/webdav/releases/release.zip dest=/srv/vpn_switcher
 
-    - name: install vpn_switcher2 build and toolchain dependencies
-      command: npm install --no-optional chdir=/srv/vpn_switcher
-
-    - name: install vpn_switcher2 application dependencies
-      command: bower install chdir=/srv/vpn_switcher
-
-    - name: install vpn_switcher2 application dependencies
-      command: gulp dist chdir=/srv/vpn_switcher
+    - name: unzip the vpn_switcher2
+      command: unzip release.zip chdir=/srv/vpn_switcher creates=/srv/vpn_switcher/bower_components

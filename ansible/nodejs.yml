@@ -3,20 +3,8 @@
     - name: install build esentials
       apt: name=build-essential
 
-    - name: get the package script
-      shell: >
-        curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
-        creates=/etc/apt/sources.list.d/nodesource.list
+    - name: nodejs deb herunterladen
+      get_url: url=http://node-arm.herokuapp.com/node_archive_armhf.deb dest=/tmp/node_armhf.deb
 
     - name: install nodejs
-      apt: name=nodejs
-
-    - name: install bower
-      shell: >
-        npm install -g bower
-        creates=/usr/lib/node_modules/bower
-
-    - name: install gulp
-      shell: >
-        npm install -g gulp
-        creates=/usr/lib/node_modules/gulp
+      apt: deb=/tmp/node_armhf.deb

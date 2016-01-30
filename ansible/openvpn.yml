@@ -10,13 +10,13 @@
       apt: name=unzip
 
     - name: unzip the configs
-      command: unzip /tmp/configs.zip -d /tmp/configs creates=/tmp/configs/*.ovpn
+      command: unzip /tmp/configs.zip -d /tmp/configs creates=/tmp/configs/ca.ipvanish.com.crt
 
     - name: copy the config preparation script
-      copy: src=../scripts/prepage-configs.sh dest=/tmp/prepage-configs.sh mode="u+rwx,g+rwx,o+rwx"
+      copy: src=../scripts/prepare-configs.sh dest=/tmp/prepare-configs.sh mode="u+rwx,g+rwx,o+rwx"
 
     - name: convert the ipvanish configs
-      command: /tmp/prepage-configs.sh /tmp/configs /etc/openvpn
+      command: /tmp/prepare-configs.sh /tmp/configs /etc/openvpn creates=/etc/openvpn/UK-London-lon-c01.conf
 
     - name: copy the ipvanish crt
       command: cp /tmp/configs/ca.ipvanish.com.crt /etc/openvpn/ca.ipvanish.com.crt creates=/etc/openvpn/ca.ipvanish.com.crt
