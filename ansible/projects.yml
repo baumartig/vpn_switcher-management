@@ -6,8 +6,17 @@
     - name: install vpn_switcher-server build and toolchain dependencies
       command: npm install --no-optional chdir=/srv/vpn_switcher-server/src creates=/srv/vpn_switcher-server/src/node_modules
 
+    - name: creat vpn_switcher folder
+      file: path=/srv/vpn_switcher state=directory mode=0755
+
     - name: get vpn_switcher2 zip
-      get_url: url=https://vpn_switcher:gscvs0rfyWjWcZaw2syw@baumartig.de/owncloud/remote.php/webdav/releases/release.zip dest=/srv/vpn_switcher
+      get_url: url=https://baumartig.de/owncloud/index.php/s/z4KaoxgoEbrKwcP/download dest=/srv/vpn_switcher/release.zip
 
     - name: unzip the vpn_switcher2
       command: unzip release.zip chdir=/srv/vpn_switcher creates=/srv/vpn_switcher/bower_components
+
+    - name: copy the server start script
+      copy: src=../scripts/vpn-server-start-script.sh dest=/etc/init.d/vpn_switcher-server mode="u+rwx,g-rwx,o-rwx"
+
+    - name: make the vpn server start on startup
+      file: src=/etc/init.d/vpn_switcher-server path=/etc/rc5.d/S01vpn_switcher-server state=link

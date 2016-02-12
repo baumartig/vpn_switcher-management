@@ -5,8 +5,7 @@
     - name: install git
       apt: name=git
 
-    - name: install bind9
-      apt: name=bind9
+    - include: ansible/network.yml
 
     - include: ansible/openvpn.yml
 

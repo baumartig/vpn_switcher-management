@@ -1,0 +1,8 @@
+- hosts: pis
+  sudo: true
+  tasks:
+
+    - include: ansible/openvpn.yml
+
+    - name: import the vpns
+      command: curl -X PUT -d "" localhost/api/vpn/import

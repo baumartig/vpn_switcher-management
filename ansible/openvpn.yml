@@ -4,19 +4,25 @@
       apt: name=openvpn
 
     - name: get the vpn configs
-      get_url: url=https://www.ipvanish.com/software/configs/configs.zip dest=/tmp/configs.zip
+      get_url: url=https://www.ipvanish.com/software/configs/configs.zip dest=/tmp/configs.zip force=yes
 
-    - name: install openvpn
+    - name: install unzip command
       apt: name=unzip
+      
+    - name: remove the tmp configs folder
+      file: path=/tmp/configs state=absent
 
     - name: unzip the configs
-      command: unzip /tmp/configs.zip -d /tmp/configs creates=/tmp/configs/ca.ipvanish.com.crt
+      command: unzip /tmp/configs.zip -d /tmp/configs 
 
     - name: copy the config preparation script
       copy: src=../scripts/prepare-configs.sh dest=/tmp/prepare-configs.sh mode="u+rwx,g+rwx,o+rwx"
+      
+    - name: remove the ipvanish configs
+      command: rm -rf /etc/openvpn/*.conf
 
     - name: convert the ipvanish configs
-      command: /tmp/prepare-configs.sh /tmp/configs /etc/openvpn creates=/etc/openvpn/UK-London-lon-c01.conf
+      command: /tmp/prepare-configs.sh /tmp/configs /etc/openvpn 
 
     - name: copy the ipvanish crt
-      command: cp /tmp/configs/ca.ipvanish.com.crt /etc/openvpn/ca.ipvanish.com.crt creates=/etc/openvpn/ca.ipvanish.com.crt
+      command: cp /tmp/configs/ca.ipvanish.com.crt /etc/openvpn/ca.ipvanish.com.crt

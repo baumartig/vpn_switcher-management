@@ -1,0 +1,16 @@
+---
+
+    - name: install bind9
+      apt: name=bind9
+
+    - name: copy bind9 local config
+      copy: src=../configs/named.conf.options dest=/etc/bind/named.conf.options
+
+    - name: copy ip up rules
+      copy: src=../configs/iptable.up.rules dest=/etc/iptable.up.rules
+
+    - name: copy iptable update script
+      copy: src=../scripts/iptables.sh dest=/etc/network/if-pre-up.d/iptables owner=root group=root mode="u=,g=,o=rwx"
+
+    - name: allow ip forward
+      command: perl -p -i -e 's/\#[\s]*net\.ipv4\.ip_forward[\s]*=[\s]*1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
